@@ -41,21 +41,14 @@ func merge(A []int, left int, mid int, right int) {
 	n2 := right - mid
 	l := make([]int, n1+1)
 	r := make([]int, n2+1)
-	a := make([]int, n1+n2)
-	c := 0
 	for i := 0; i < n1; i++ {
 		l[i] = A[left+i]
-		a[c] = A[left+i]
-		c++
 	}
 	for i := 0; i < n2; i++ {
 		r[i] = A[mid+i]
-		a[c] = A[mid+i]
-		c++
 	}
 	l[n1] = math.MaxInt64
 	r[n2] = math.MaxInt64
-	CountInverse(a, n1+n2)
 	i := 0
 	j := 0
 	for k := left; k < right; k++ {
@@ -63,19 +56,10 @@ func merge(A []int, left int, mid int, right int) {
 			A[k] = l[i]
 			i++
 		} else {
+			// leftのほうが大きい場合はn1-iで反点数が求められる
+			Cnt += n1 - i
 			A[k] = r[j]
 			j++
-		}
-	}
-}
-
-// 反転数を求める
-func CountInverse(a []int, n int) {
-	for i := n - 1; i >= 0; i-- {
-		for j := 0; j < i; j++ {
-			if a[j] > a[i] {
-				Cnt++
-			}
 		}
 	}
 }
